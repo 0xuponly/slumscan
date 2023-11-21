@@ -1,0 +1,117 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ } 
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: #4d004d; /* Deep purple */
+  color: white; /* Change text color to white for contrast */
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #4d004d;
+ }
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+ .blockDetails {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  background-color: #690069;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+ }
+ 
+ .blockDetails ul {
+  list-style-type: none;
+  padding: 0;
+ }
+ 
+ .blockDetails li {
+  margin-bottom: 10px;
+  font-size: 16px;
+ }
+ 
+ .blockDetails li:before {
+  content: "• ";
+  color: #6c757d;
+  margin-right: 10px;
+ }
+
+ .transactions {
+  margin-top: 20px;
+  background-color: #5e0061;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+ }
+ 
+ /* unvisited link */
+a:link {
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+  color:rgb(0, 158, 250)
+ }
+ /* visited link */
+ a:visited {
+  font-family: Arial, sans-serif;
+  color: rgb(250, 0, 250);
+ }
+ /* mouse over link */
+ a:hover {
+  font-family: Arial, sans-serif;
+  text-decoration: underline;
+ }
+ /* selected link */
+ a:active {
+  font-family: Arial, sans-serif;
+ }
+
+ .logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: 'Source Sans Pro', sans-serif; /* Replace with your preferred font */
+  font-size: 1.1em;
+  color: #d600d6;
+ }
+
+ td {
+  padding-right: 20px;
+ }
+ 
