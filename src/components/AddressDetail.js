@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alchemy, Network } from 'alchemy-sdk';
 import { ethers } from 'ethers';
-import LatestBlock from './LatestBlock';
+import axios from 'axios';
 
 const settings = {
  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -14,6 +14,8 @@ const alchemy = new Alchemy(settings);
 function AddressDetail() {
  const { addressId } = useParams();
  const [address, setAddress] = useState(null);
+ const [ethPriceInBTC, setEthPriceInBTC] = useState(null);
+ const [ethPriceInUSD, setEthPriceInUSD] = useState(null);
  
  useEffect(() => { 
  async function getAddressDetails() {
@@ -31,6 +33,16 @@ function AddressDetail() {
  }, [addressId]);
  
  const addressIdShortened = addressId.substring(0, 6) + '...' + addressId.substring(addressId.length - 4);
+
+ useEffect(() => {
+    async function getEthPrice() {
+    const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc,usd');
+    setEthPriceInBTC(response.data.ethereum.btc);
+    setEthPriceInUSD(response.data.ethereum.usd);
+    }
+   
+    getEthPrice();
+   }, []);
  
  return (
  <div className="App">
@@ -39,7 +51,7 @@ function AddressDetail() {
  <h1>slumscan.io</h1>
  </div>
  <div className="eth-price-container">
- <p>Ξ1 = ${LatestBlock.ethPriceInUSD} = ₿{LatestBlock.ethPriceInBTC}</p>
+ <p>Ξ1 = ${ethPriceInUSD} = ₿{ethPriceInBTC}</p>
  </div>
  </div>
  <p style={{ fontSize: '24px', backgroundColor: '#4d004d', paddingTop: '16px' }}>Address Details: {addressIdShortened}</p>
@@ -47,7 +59,10 @@ function AddressDetail() {
  <div className="blockDetails">
  <p style={{ fontSize: '20px' }}>Address Details:</p>
  <table style={{ tableLayout: 'fixed', width: '100%', marginBottom: 0 }}>
- <p>ETH Value: {address}</p> {/* Display the address value */}
+ <tbody>
+ <p>ETH Balance: {'Ξ'+address}</p> {/* Display the address value */}
+ <p>ETH Value: {'$'+address*ethPriceInUSD}</p>
+ </tbody>
  </table>
  </div>
  )}
