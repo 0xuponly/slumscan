@@ -5,10 +5,12 @@
  } 
 
 .App {
-  text-align: center;
+  text-align: right;
   font-family: Arial, sans-serif;
   background-color: #4d004d; /* Deep purple */
   color: white; /* Change text color to white for contrast */
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .App-logo {
@@ -105,7 +107,7 @@ a:link {
  .logo {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 20px;
   font-family: 'Source Sans Pro', sans-serif; /* Replace with your preferred font */
   font-size: 1.1em;
   color: #d600d6;
@@ -113,5 +115,96 @@ a:link {
 
  td {
   padding-right: 20px;
+ }
+ 
+ .transaction-info-header {
+  font-size: 24px;
+  color: #4d004d;
+  padding-top: 16px;
+ }
+ 
+ .logo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ }
+
+ .eth-price-container {
+  margin-right: 50px;
+  position: absolute;
+  left: 300px;
+  top: 24px;
+  text-align: left;
+  color: #ff70ff;
+ }
+ 
+ .search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #282c34;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .search-bar input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4d004d;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+ }
+ 
+ .search-bar button[type="submit"] {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: #4d004d;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+ }
+ 
+ .search-bar-container {
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+  background-color: #282c34;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 20%; /* Adjust this value to your preference */
+ }
+ 
+ .search-bar-container input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4d004d;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+ }
+ 
+ .search-bar-container button[type="submit"] {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: #4d004d;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
  }
  
