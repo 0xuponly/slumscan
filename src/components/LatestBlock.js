@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Alchemy, Network } from 'alchemy-sdk';
 import axios from 'axios';
-// import './LatestBlock.css';
 
 const settings = {
  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alchemy, Network } from 'alchemy-sdk';
-import LatestBlock from './LatestBlock';
+import axios from 'axios';
 
 const settings = {
  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -13,6 +13,8 @@ const alchemy = new Alchemy(settings);
 function TransactionDetail() {
  const { transactionId } = useParams();
  const [transaction, setTransaction] = useState(null);
+ const [ethPriceInBTC, setEthPriceInBTC] = useState(null);
+ const [ethPriceInUSD, setEthPriceInUSD] = useState(null);
  
  useEffect(() => { 
  async function getTransactionDetails() {
@@ -31,6 +33,16 @@ function TransactionDetail() {
  // console.log(transactionId); // Check the transactionId
  const transactionIdShortened = transactionId.substring(0, 6) + '...' + transactionId.substring(transactionId.length - 4);
  
+ useEffect(() => {
+    async function getEthPrice() {
+    const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc,usd');
+    setEthPriceInBTC(response.data.ethereum.btc);
+    setEthPriceInUSD(response.data.ethereum.usd);
+    }
+   
+    getEthPrice();
+   }, []);
+
  return (
  <div className="App">
  <div className="logo-container">
@@ -38,7 +50,7 @@ function TransactionDetail() {
  <h1>slumscan.io</h1>
  </div>
  <div className="eth-price-container">
- <p>Ξ1 = ${LatestBlock.ethPriceInUSD} = ₿{LatestBlock.ethPriceInBTC}</p>
+ <p>Ξ1 = ${ethPriceInUSD} = ₿{ethPriceInBTC}</p>
  </div>
  </div>
  <p style={{ fontSize: '24px', backgroundColor: '#4d004d', paddingTop: '16px' }}>Transaction Details: {transactionIdShortened}</p>
