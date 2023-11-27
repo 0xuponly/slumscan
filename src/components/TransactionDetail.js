@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Alchemy, Network } from 'alchemy-sdk';
 import axios from 'axios';
+import { ethers } from 'ethers';
 
 const settings = {
  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -34,14 +35,14 @@ function TransactionDetail() {
  const transactionIdShortened = transactionId.substring(0, 6) + '...' + transactionId.substring(transactionId.length - 4);
  
  useEffect(() => {
-    async function getEthPrice() {
-    const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc,usd');
-    setEthPriceInBTC(response.data.ethereum.btc);
-    setEthPriceInUSD(response.data.ethereum.usd);
-    }
-   
-    getEthPrice();
-   }, []);
+   async function getEthPrice() {
+   const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc,usd');
+   setEthPriceInBTC(response.data.ethereum.btc);
+   setEthPriceInUSD(response.data.ethereum.usd);
+   }
+  
+   getEthPrice();
+  }, []);
 
  return (
  <div className="App">
@@ -59,17 +60,21 @@ function TransactionDetail() {
  <p style={{ fontSize: '20px' }}>Transaction Details:</p>
  <table style={{ tableLayout: 'fixed', width: '100%', marginBottom: 0 }}>
  <tbody>
- {Object.keys(transaction).map((key) => {
- if (['difficulty', '_difficulty', 'transactions', 'type', 'accessList', 'transactionIndex', 'r', 's', 'v', 'creates', 'wait', 'data'].includes(key)) {
- return null;
+ {['hash', 'blockHash', 'blockNumber', 'confirmations', 'from', 'to', 'value', 'gasPrice', 'maxPriorityFeePerGas', 'maxFeePerGas', 'gasLimit', 'nonce', 'chainId'].map((key) => {
+ if (transaction[key] === undefined) {
+  return null;
  }
  return (
- <tr key={key}>
-  <td>{key}</td>
-  <td>{typeof transaction[key] === 'object' && transaction[key] !== null ? transaction[key].toString() : transaction[key]}</td>
- </tr>
+  <tr key={key}>
+    <td>{key}</td>
+    <td>
+      {key === 'value' ? ethers.utils.formatUnits(transaction[key], 18) : 
+      key === 'blockNumber' ? <Link to={`/block/${transaction[key]}`}>{transaction[key]}</Link> :
+      key === 'from' || key === 'to' ? <Link to={`/address/${transaction[key]}`}>{transaction[key]}</Link> : transaction[key].toString()}
+    </td>
+  </tr>
  );
- })}
+})}
  </tbody>
  </table>
  </div>
