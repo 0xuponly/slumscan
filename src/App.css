@@ -11,6 +11,7 @@
   color: white; /* Change text color to white for contrast */
   padding-right: 20px;
   padding-left: 20px;
+  padding-bottom: 40px;
 }
 
 .App-logo {
@@ -107,9 +108,9 @@ a:link {
  .logo {
   position: absolute;
   top: 10px;
-  left: 20px;
+  left: 40px;
   font-family: 'Source Sans Pro', sans-serif; /* Replace with your preferred font */
-  font-size: 1.1em;
+  font-size: 1.05em;
   color: #d600d6;
  }
 
@@ -178,11 +179,13 @@ a:link {
   justify-content: center;
   align-items: center;
   margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 20px;
   background-color: #282c34;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 20%; /* Adjust this value to your preference */
+  width: 25%; /* Adjust this value to your preference */
  }
  
  .search-bar-container input[type="text"] {
@@ -207,4 +210,19 @@ a:link {
   font-size: 16px;
   cursor: pointer;
  }
- 
+
+ .footer {
+  margin-top: auto;
+  text-align: right;
+  padding: 10px;
+ }
+
+ .fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-right: 60px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background-color: #4d004d;
+}

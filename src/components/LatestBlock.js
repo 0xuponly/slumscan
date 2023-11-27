@@ -49,7 +49,7 @@ return (
  <p>Ξ1 = ${ethPriceInUSD} = ₿{ethPriceInBTC}</p>
  </div>
  </div>
- <p style={{ fontSize: '24px', backgroundColor: '#4d004d', paddingTop: '16px', paddingRight: '10px' }}>Latest Block: {blockNumber ? blockNumber : 'Loading... '}</p>
+ <p style={{ fontSize: '20px', backgroundColor: '#4d004d', paddingTop: '16px', paddingRight: '10px' }}>Latest Block: {blockNumber ? blockNumber : 'Loading... '}</p>
  {block && (
  <div className="blockDetails">
  <p style={{ fontSize: '20px' }}>Block Details:</p>
@@ -62,7 +62,7 @@ return (
     return (
       <tr key={key}>
        <td>{key}</td>
-       <td>{typeof block[key] === 'object' && block[key] !== null ? block[key].toString() : block[key]}</td>
+       <td>{key === 'miner' ? <Link to={`/address/${block[key]}`}>{block[key]}</Link> : block[key].toString()}</td>
       </tr>
     );
   })}

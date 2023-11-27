@@ -7,42 +7,61 @@ const settings = {
  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
  network: Network.ETH_MAINNET,
 };
-
 const alchemy = new Alchemy(settings);
 
 const BlockDetail = () => {
- const [blockNumber, setBlockNumber] = useState(null);
- const [block, setBlock] = useState(null);
  const [transactions, setTransactions] = useState([]);
  const [ethPriceInBTC, setEthPriceInBTC] = useState(null);
  const [ethPriceInUSD, setEthPriceInUSD] = useState(null);
+ const [block, setBlock] = useState(null);
+ const { blockNumber } = useParams();
+ const [blockHash, setBlockHash] = useState(null);
 
- // Get the blockId from the URL
- const { blockId } = useParams();
+ const Web3 = require('web3');
+ const web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${settings.apiKey}`);
 
  useEffect(() => { 
-    async function getBlock() {
-        const latestBlockNumber = await alchemy.core.getBlockNumber();
-        if (blockNumber > latestBlockNumber) {
-          throw new Error('Invalid block number');
-        }
-        const block = await alchemy.core.getBlock(blockNumber);
-        setBlock(block);
-        setTransactions(block.transactions);
-       }
-   
-    getBlock();
-   }, [blockId, setBlock, setTransactions]);
+ let isMounted = true;
+ async function getBlock() {
+   const block = await web3.eth.getBlock(blockNumber);
+   if (isMounted) setBlockHash(block.hash);
+ }
+ 
+ getBlock();
+ return () => { isMounted = false };
+ }, [blockNumber]);
+
+ useEffect(() => { 
+ let isMounted = true;
+ async function getBlock() {
+   const latestBlockNumber = await alchemy.core.getBlockNumber();
+   if (blockNumber > latestBlockNumber) {
+     throw new Error('Invalid block number');
+   }
+   const block = await alchemy.core.getBlock(blockHash);
+   if (isMounted) {
+     setBlock(block);
+     setTransactions(block.transactions);
+   }
+ }
+
+ getBlock();
+ return () => { isMounted = false };
+ }, [blockHash, blockNumber, block, setBlock, setTransactions]);
 
  useEffect(() => {
+ let isMounted = true;
  async function getEthPrice() {
- const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc,usd');
- setEthPriceInBTC(response.data.ethereum.btc);
- setEthPriceInUSD(response.data.ethereum.usd);
+   const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc,usd');
+   if (isMounted) {
+     setEthPriceInBTC(response.data.ethereum.btc);
+     setEthPriceInUSD(response.data.ethereum.usd);
+   }
  }
 
  getEthPrice();
-}, []);
+ return () => { isMounted = false };
+ }, []);
 
 return (
  <div className="App">
@@ -54,23 +73,23 @@ return (
  <p>Ξ1 = ${ethPriceInUSD} = ₿{ethPriceInBTC}</p>
  </div>
  </div>
- <p style={{ fontSize: '24px', backgroundColor: '#4d004d', paddingTop: '16px', paddingRight: '10px' }}>Latest Block: {blockNumber ? blockNumber : 'Loading... '}</p>
+ <p style={{ fontSize: '20px', backgroundColor: '#4d004d', paddingTop: '16px', paddingRight: '10px' }}>Latest Block: {blockNumber ? blockNumber : 'Loading... '}</p>
  {block && (
  <div className="blockDetails">
  <p style={{ fontSize: '20px' }}>Block Details:</p>
  <table>
  <tbody>
-  {Object.keys(block).map((key) => {
-    if (['nonce', 'difficulty', '_difficulty', 'transactions'].includes(key)) {
-      return null;
-    }
-    return (
-      <tr key={key}>
-       <td>{key}</td>
-       <td>{typeof block[key] === 'object' && block[key] !== null ? block[key].toString() : block[key]}</td>
-      </tr>
-    );
-  })}
+ {Object.keys(block).map((key) => {
+  if (['nonce', 'difficulty', '_difficulty', 'transactions'].includes(key)) {
+    return null;
+  }
+  return (
+    <tr key={key}>
+     <td>{key}</td>
+     <td>{key === 'miner' ? <Link to={`/address/${block[key]}`}>{block[key]}</Link> : block[key].toString()}</td>
+    </tr>
+  );
+ })}
  </tbody>
  </table>
  </div>
@@ -80,11 +99,11 @@ return (
  Transactions:
  <table>
  <tbody>
-  {transactions.map((transaction, index) => (
-    <tr key={index}>
-      <td><Link to={`/tx/${transaction}`}>{transaction}</Link></td>
-    </tr>
-  ))}
+ {transactions.map((transaction, index) => (
+  <tr key={index}>
+    <td><Link to={`/tx/${transaction}`}>{transaction}</Link></td>
+  </tr>
+ ))}
  </tbody>
  </table>
  </div>

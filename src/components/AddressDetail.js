@@ -22,7 +22,7 @@ function AddressDetail() {
  try {
  const address = await alchemy.core.getBalance(addressId);
  const ethValue = ethers.utils.formatEther(address);
- console.log(ethValue); // Check the address data in Ether
+ //console.log(ethValue); // Check the address data in Ether
  setAddress(ethValue);
  } catch (error) {
  console.error(error); // Check for errors
@@ -54,15 +54,20 @@ function AddressDetail() {
  <p>Ξ1 = ${ethPriceInUSD} = ₿{ethPriceInBTC}</p>
  </div>
  </div>
- <p style={{ fontSize: '24px', backgroundColor: '#4d004d', paddingTop: '16px' }}>Address Details: {addressIdShortened}</p>
+ <p style={{ fontSize: '20px', backgroundColor: '#4d004d', paddingTop: '16px' }}>Address Details: {addressIdShortened}</p>
  {address && (
  <div className="blockDetails">
  <p style={{ fontSize: '20px' }}>Address Details:</p>
  <table style={{ tableLayout: 'fixed', width: '100%', marginBottom: 0 }}>
  <tbody>
- <p>ETH Balance: {'Ξ'+address}</p> {/* Display the address value */}
- <p>ETH Value: {'$'+address*ethPriceInUSD}</p>
- </tbody>
+ <tr>
+  <td>ETH Balance: {'Ξ'+address}</td>
+ </tr>
+ <tr>
+  <td>ETH Value: {'$'+address*ethPriceInUSD}</td>
+ </tr>
+</tbody>
+
  </table>
  </div>
  )}

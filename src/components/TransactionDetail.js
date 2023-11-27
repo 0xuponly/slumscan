@@ -21,7 +21,7 @@ function TransactionDetail() {
  async function getTransactionDetails() {
  try {
  const transaction = await alchemy.core.getTransaction(transactionId);
- console.log(transaction); // Check the transaction data
+ //console.log(transaction); // Check the transaction data
  setTransaction(transaction);
  } catch (error) {
  console.error(error); // Check for errors
@@ -54,7 +54,7 @@ function TransactionDetail() {
  <p>Ξ1 = ${ethPriceInUSD} = ₿{ethPriceInBTC}</p>
  </div>
  </div>
- <p style={{ fontSize: '24px', backgroundColor: '#4d004d', paddingTop: '16px' }}>Transaction Details: {transactionIdShortened}</p>
+ <p style={{ fontSize: '20px', backgroundColor: '#4d004d', paddingTop: '16px' }}>Transaction Details: {transactionIdShortened}</p>
  {transaction && (
  <div className="blockDetails">
  <p style={{ fontSize: '20px' }}>Transaction Details:</p>
